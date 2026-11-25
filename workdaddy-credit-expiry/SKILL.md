@@ -24,7 +24,7 @@ WorkDaddy 面板自带的「积分到期分布」悬浮层，是把**所有账�
 
 - 注入锚点：WorkDaddy 的 `scripts/daemon.js` → `buildInjectScript()` 每次注入都**实时读** `scripts/inject.js`，并在锚点 `return { destroy: lifecycle.destroy, alive: lifecycle.alive };`（在 `build()` 函数体末尾）之前，拼入 `scripts/picker-internal.js`（仅当该文件存在）。**因此不需要改 `inject.js` 本体**，把自己的代码写进 `picker-internal.js` 即可，且注入位置共享 `accountsPane` / `state` / `el` / `listen` / `mountPersistentOverlay` / `applyI18n` / `registerDisposer` 闭包。
 - 数据来源：`state.accounts[].creditSegments[]`，每项含 `remaining` / `expiresAt`（毫秒时间戳）/ `source`。不需要另调接口。
-- 天数口径：`ceil((当天 23:59:59 - now) / 86400000)`，与 WorkDaddy 原生一致。
+- 天数口径：自然日相减（目标日 00:00 − 今天 00:00），今天到期显示「今天」，已过期显示「已到期」。
 - **账号数据只在打开面板时加载**：`state.accounts` 初始为空，面板未开时点按钮会显示 0 条，属正常现象。
 - 更新会覆盖：Windows 用 `robocopy /MIR` 清安装目录，macOS 用 `rm -rf .app` + `cp -R`，注入文件都会丢，必须靠守卫恢复。
 - 触发立即生效（免重启）：`POST http://127.0.0.1:<ui-port>/api/inject`，header `x-workdaddy-token`（读数据目录的 `.api-token`），body `{}`。`buildInjectScript()` 无缓存。

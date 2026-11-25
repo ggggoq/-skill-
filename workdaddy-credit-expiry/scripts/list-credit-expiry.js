@@ -38,9 +38,14 @@ function fmtTime(ms) {
   const d = new Date(ms);
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 }
+// 剩余天数 = 自然日相减（目标日 00:00 − 今天 00:00）。今天到期为 0。
 function daysLeft(expiresAt, now) {
   if (!Number.isFinite(expiresAt)) return null;
-  return Math.max(0, Math.ceil((expiresAt - now) / 86400000));
+  const d = new Date(expiresAt);
+  const n = new Date(now);
+  const a = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const b = new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTime();
+  return Math.round((a - b) / 86400000);
 }
 function num(v) { return Number.isFinite(Number(v)) ? Number(v) : 0; }
 
@@ -179,7 +184,7 @@ function renderText(report, cacheMtime) {
       return h.padEnd(widths[i] - (h.length - h.replace(/[^\x00-\xff]/g, 'xx').length));
     }).join(''));
     for (const s of acc.segments) {
-      const days = s.days === null ? '未知' : s.days === 0 ? '已到期' : `${s.days} 天`;
+      const days = s.days === null ? '未知' : s.days < 0 ? '已到期' : s.days === 0 ? '今天' : `${s.days} 天`;
       const source = s.source.length > 38 ? s.source.slice(0, 37) + '…' : s.source;
       const cells = [days, s.remaining.toFixed(2), fmtTime(s.expiresAt), source];
       const widths = [9, 12, 22, 40];

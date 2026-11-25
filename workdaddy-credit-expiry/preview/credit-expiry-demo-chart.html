@@ -96,10 +96,27 @@
     </div>
     <div class="note">
       <b>条形</b>每行都满 100%，段长 = 该账号在当天的积分占比（当天只有一家到期时该家就是满条）。<br>
-      橙色数字 = 单日 ≥ 500 的大额。<b>天数口径</b>按当天 23:59:59 计算 <code>ceil</code>。<br>
+      橙色数字 = 单日 ≥ 500 的大额。<b>天数口径</b>按自然日相减（目标日 00:00 − 今天 00:00），今天到期显示「今天」。<br>
       数据取自本地缓存，打开面板后点击实时渲染，不发额外网络请求。
     </div>
   </div>
 </div>
+<script>
+/* 天数按打开页面当天实时重算，避免静态 demo 的天数过期 */
+(function () {
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  Array.prototype.forEach.call(document.querySelectorAll('td.date'), function (td) {
+    var span = td.querySelector('.days');
+    if (!span) return;
+    var m = /^(\d{2})-(\d{2})/.exec((td.textContent || '').trim());
+    if (!m) return;
+    var d = new Date(today.getFullYear(), Number(m[1]) - 1, Number(m[2]));
+    if (d - today < -180 * 86400000) d.setFullYear(d.getFullYear() + 1);
+    var days = Math.round((d - today) / 86400000);
+    span.textContent = days < 0 ? '已到期' : days === 0 ? '今天' : days + '天';
+  });
+})();
+</script>
 </body>
 </html>

@@ -144,31 +144,40 @@ function writable(dir) {
 /**
  * 目标内容 = 官方原有内容（若有）+ 我方代码。
  * 若官方将来自带 picker-internal.js，两份都注入，不覆盖对方。
+ * 已有我方代码时，只替换我方那一段，保留它前面的官方前缀。
  */
+const OUR_SIG = '/* WorkDaddy 账号面板：积分到期明细按钮';
+const OUR_HEAD = '(function installCreditDetail()';
+
 function composeTarget() {
   const src = readIfExists(SRC);
   if (!src) return null;
   const cur = readIfExists(DST_PATH);
-  if (cur && !cur.includes(MARKER) && cur.trim()) {
-    return { content: cur.replace(/\s*$/, '') + '\n\n' + src, official: cur };
+  if (!cur || !cur.trim()) return { content: src, official: null };
+  // 整份都是我方的（文件以我方头注释开头）：直接同步为最新源码
+  if (cur.trimStart().startsWith(OUR_SIG)) return { content: src, official: null };
+  const idx = cur.indexOf(OUR_HEAD);
+  if (idx > 0) {
+    // 官方内容 + 我方旧版：只替换我方那一段，保留官方前缀
+    const prefix = cur.slice(0, idx).replace(/\s+$/, '');
+    return { content: prefix ? prefix + '\n\n' + src : src, official: null };
   }
-  return { content: src, official: null };
+  // 纯官方文件：追加，不覆盖
+  return { content: cur.replace(/\s+$/, '') + '\n\n' + src, official: cur };
 }
 
 let DST_PATH = '';
 
 function guard(verbose) {
-  const src = readIfExists(SRC);
-  if (!src) return { ok: false, reason: '源文件缺失: ' + SRC };
+  const target = composeTarget();
+  if (!target) return { ok: false, reason: '源文件缺失: ' + SRC };
 
   const cur = readIfExists(DST_PATH);
-  if (cur && cur.includes(src.trim().slice(0, 200)) && cur.includes(MARKER)) {
-    if (verbose) log('[guard] 注入文件正常，无需操作');
+  const digest = (s) => crypto.createHash('sha256').update(s, 'utf8').digest('hex');
+  if (cur !== null && digest(cur) === digest(target.content)) {
+    if (verbose) log('[guard] 注入文件已是最新，无需操作');
     return { ok: true, changed: false };
   }
-
-  const target = composeTarget();
-  if (!target) return { ok: false, reason: '源文件缺失' };
 
   if (!writable(path.dirname(DST_PATH))) {
     return {

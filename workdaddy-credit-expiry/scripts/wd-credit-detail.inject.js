@@ -6,7 +6,7 @@
  * 口径：
  *   1. 跨账号按「到期日」合并，忽略时分秒；
  *   2. 每行条形固定占满 100%，段宽 = 该账号在当天的积分占比（当天只有一家则整条满）；
- *   3. 剩余天数按当天 23:59:59 计算 ceil，与 WorkDaddy 原生口径一致。
+ *   3. 剩余天数按自然日相减（目标日 00:00 − 今天 00:00），今天到期显示「今天」。
  */
 (function installCreditDetail() {
   if (typeof accountsPane === 'undefined' || !accountsPane) return;
@@ -75,9 +75,9 @@
     if (text !== undefined) n.textContent = String(text);
     return n;
   }
-  function endOfDay(ts) {
+  function startOfDay(ts) {
     var d = new Date(ts);
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999).getTime();
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
   }
 
   function collect(now) {
@@ -99,17 +99,16 @@
         var remain = Number(s && s.remaining);
         if (!isFinite(remain) || remain <= 0) return;
         var ts = (s.expiresAt === null || s.expiresAt === undefined || !isFinite(Number(s.expiresAt))) ? null : Number(s.expiresAt);
-        var key, sortKey, dayEnd;
+        var key, sortKey;
         if (ts === null) {
-          key = '__unknown__'; sortKey = Infinity; dayEnd = null;
+          key = '__unknown__'; sortKey = Infinity;
         } else {
           var d = new Date(ts);
           key = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
           sortKey = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-          dayEnd = endOfDay(ts);
         }
         var b = buckets[key];
-        if (!b) { b = buckets[key] = { key: key, sortKey: sortKey, dayEnd: dayEnd, total: 0, parts: {}, order: [] }; }
+        if (!b) { b = buckets[key] = { key: key, sortKey: sortKey, total: 0, parts: {}, order: [] }; }
         b.total += remain;
         if (!b.parts[uid]) { b.parts[uid] = { name: name, amount: 0, color: color }; b.order.push(uid); }
         b.parts[uid].amount += remain;
@@ -123,8 +122,9 @@
       if (b.sortKey === Infinity) return -1;
       return a.sortKey - b.sortKey;
     });
+    var todayStart = startOfDay(now);
     rows.forEach(function (r) {
-      r.days = r.dayEnd === null ? null : Math.max(0, Math.ceil((r.dayEnd - now) / 86400000));
+      r.days = r.sortKey === Infinity ? null : Math.round((r.sortKey - todayStart) / 86400000);
       r.partsList = r.order.map(function (uid) { return r.parts[uid]; });
       r.partsList.sort(function (a, b) { return b.amount - a.amount; });
       r.top = r.partsList[0] || null;
@@ -170,7 +170,10 @@
         else if (r.key.slice(0, 4) === thisYear) dateLabel = r.key.slice(5);          // 今年：MM-DD
         else dateLabel = r.key.slice(2, 4) + '-' + r.key.slice(5);                     // 跨年：YY-MM-DD
         var dateTd = cell('td', 'cd-date', dateLabel);
-        if (r.days !== null) dateTd.appendChild(cell('span', 'cd-days', r.days === 0 ? '已到期' : r.days + '天'));
+        if (r.days !== null) {
+          var dayTxt = r.days < 0 ? '已到期' : (r.days === 0 ? '今天' : r.days + '天');
+          dateTd.appendChild(cell('span', 'cd-days', dayTxt));
+        }
         tr.appendChild(dateTd);
 
         var amtTd = cell('td', 'num cd-cred' + (r.total >= HOT_THRESHOLD ? ' hot' : ''), r.total.toFixed(2));
