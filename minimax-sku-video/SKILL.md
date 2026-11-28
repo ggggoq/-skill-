@@ -1,6 +1,6 @@
 ---
 name: minimax-sku-video
-description: 服装「图生视频」批量交付流水线（MiniMax H3 / 9:16 / 10 秒）。当用户说「开始生成+款号」「这批图生视频」「接新款」「第 N 组重出」「这版 BGM 不对」「换参考片再跑」，或需要一键建项目骨架、建款目录、跑骨架分镜、写提示词、提交任务、收口质检时使用。覆盖从素材盘拷素材、窗口选段、提示词闸门、两阶段提交、下载收口到交付归档的全流程。
+description: 服装「图生视频」批量交付流水线（MiniMax H3 / 9:16 / 10 秒）。当用户说「开始生成+款号」「这批图生视频」「接新款」「第 N 组重出」「这版 BGM 不对」「换参考片再跑」「不同款动作怎么都一样」「查一下这几条参考是不是同一条」，或需要一键建项目骨架、建款目录、跑参考体检、跑骨架分镜、写提示词、提交任务、收口质检时使用。覆盖从素材盘拷素材、参考重复体检、窗口选段、提示词闸门、两阶段提交、下载收口到交付归档的全流程。
 agent_created: true
 ---
 
@@ -32,6 +32,16 @@ agent_created: true
 9. **参考先体检，且这是硬闸门**。`ref_audit.py` 出 BLOCK 就不许提交；跨款共用同一条参考必须在报告里点名——
    这是「不同款成片动作却一模一样」的头号原因，光改提示词救不回来。
    **`submit.py` 已把它实现在代码里**（缺报告/有 BLOCK/素材改过没重跑 → `exit 3`），不要绕过。
+
+## 更新到最新（仓库分发）
+
+技能托管在 `https://github.com/ggggoq/-skill-` 的 `minimax-sku-video/` 目录。更新就重跑这一行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -Command "iwr https://raw.githubusercontent.com/ggggoq/-skill-/main/install.ps1 -OutFile $env:TEMP\i.ps1; & $env:TEMP\i.ps1 -Skill minimax-sku-video"
+```
+
+旧目录会备份成 `minimax-sku-video.bak-<时间>`；脚本只覆盖不删除，所以 `tools/ffmpeg.exe`、项目数据、你自己的配置都不会丢。
 
 ## 一次性装环境（新同事）
 
@@ -77,7 +87,7 @@ python scripts/init_project.py --root "<项目目录>" --venv --install
 ## 参考体检（第 2 步，0 元，强制）
 
 ```bash
-python scripts/ref_audit.py --sku <款号> --pose-python "F:\jp_tmp_frames\venv_pose\Scripts\python.exe"
+python scripts/ref_audit.py --sku <款号>
 ```
 
 一次回答四件事：四条参考是不是同一条（含改封装/裁剪）、动作类型够不够（走动/站定/抬手）、
@@ -111,7 +121,7 @@ python scripts/ref_audit.py --sku <款号> --pose-python "F:\jp_tmp_frames\venv_
 | 文件 | 什么时候读 |
 |---|---|
 | `assets/manual/环境配置手册.html` | **给新同事第一份看的东西**：只覆盖环境配置（前置准备→一键装→5 项自检→验证虚拟环境），每步配一条可直接发给 WorkBuddy 的代理提示词，双击浏览器打开 |
-| `assets/manual/流程图.svg` | 需要把四阶段九步流程图贴进 PPT / 群消息 / 文档时直接用 |
+| `assets/manual/流程图.svg` | 需要把四阶段十步流程图贴进 PPT / 群消息 / 文档时直接用 |
 | `references/pipeline.md` | 第一次接手，或某步的判定口径不确定 |
 | `references/prompt-spec.md` | 写提示词 / 提示词被规则检查打回 |
 | `references/ref-audit.md` | **成片动作老是那几套**：先跑参考体检，看 code 含义、阈值来源、以及丢给 AI 的 6 句问法 |

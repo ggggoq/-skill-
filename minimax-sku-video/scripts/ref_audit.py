@@ -11,7 +11,7 @@
 一条命令
 --------
     python scripts/ref_audit.py --sku KF96103773
-    python scripts/ref_audit.py --sku KF96103773 --pose-python "F:\\jp_tmp_frames\\venv_pose\\Scripts\\python.exe"
+    python scripts/ref_audit.py --sku KF96103773 --pose-python "<项目>/.venv/Scripts/python.exe"
 
 默认去素材盘 `<source-root>/<款号>/<组号>/` 取料；加 `--local` 改读项目 `01_素材库`。
 
