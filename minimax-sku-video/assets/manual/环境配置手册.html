@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>图生视频 · 新人环境配置手册</title>
+<style>
+  :root{
+    --bg:#F7F7F3; --ink:#111111; --ink2:#555550; --line:#D8D8CF;
+    --accent:#B7DF32; --card:#FFFFFF; --warn:#C8452E;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Inter","Helvetica Neue","SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:15px; line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px; margin:0 auto; padding:56px 40px 100px}
+  .kicker{font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink2); margin-bottom:12px}
+  h1{font-size:46px; line-height:1.08; letter-spacing:-.025em; font-weight:800; margin:0 0 16px}
+  .lead{font-size:17px; color:var(--ink2); max-width:760px}
+  .meta{display:flex; gap:36px; flex-wrap:wrap; margin:30px 0 0; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+  .meta div{min-width:130px}
+  .meta b{display:block; font-size:22px; font-weight:800; letter-spacing:-.01em}
+  .meta span{font-size:12px; color:var(--ink2); letter-spacing:.06em}
+  h2{font-size:24px; letter-spacing:-.01em; font-weight:800; margin:60px 0 6px; padding-top:16px; border-top:2px solid var(--ink)}
+  h2 .n{display:inline-block; background:var(--ink); color:var(--bg); font-size:15px; width:30px; height:30px; line-height:30px;
+         text-align:center; border-radius:15px; margin-right:12px; vertical-align:3px; font-weight:800}
+  p{margin:8px 0}
+  code{font-family:"SF Mono",Menlo,Consolas,monospace; font-size:13px; background:#EFEFE8; padding:2px 6px; border-radius:3px}
+  pre{font-family:"SF Mono",Menlo,Consolas,monospace; font-size:13px; line-height:1.75;
+      background:var(--ink); color:#F2F2EA; padding:18px 20px; border-radius:4px; overflow-x:auto; margin:14px 0}
+  pre code{background:none; padding:0; color:inherit; font-size:13px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:6px; padding:20px 24px; margin:16px 0}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14px}
+  th,td{text-align:left; vertical-align:top; padding:11px 12px; border-bottom:1px solid var(--line)}
+  th{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink2); border-bottom:2px solid var(--ink)}
+  .ok{color:#3E7D1B; font-weight:700}
+  .bad{color:var(--warn); font-weight:700}
+  .callout{border-left:4px solid var(--accent); background:#fff; padding:14px 18px; margin:18px 0; font-size:14px}
+  .callout.warn{border-left-color:var(--warn)}
+  .callout b{font-weight:800}
+  .stepnote{font-size:13px; color:var(--ink2); margin-top:10px}
+  .tag{display:inline-block; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:10px;
+       border:1px solid var(--ink); margin-right:6px}
+  .tag.must{background:var(--accent)}
+  .tag.opt{background:#fff}
+  ul.tight{margin:8px 0; padding-left:22px}
+  ul.tight li{margin:6px 0}
+  /* 对 WorkBuddy 说的提示词块 */
+  .wb{border:1px solid var(--ink); border-radius:6px; margin:16px 0; overflow:hidden}
+  .wb .wb-h{display:flex; align-items:center; gap:9px; background:var(--accent); color:var(--ink);
+            padding:7px 14px; font-size:11.5px; font-weight:800; letter-spacing:.06em}
+  .wb .wb-h .sq{width:9px; height:9px; background:var(--ink); display:inline-block}
+  .wb pre{margin:0; padding:15px 17px; background:var(--ink); color:#F2F2EA;
+          border-radius:0; white-space:pre-wrap; word-break:break-word; font-size:12.5px; line-height:1.7}
+  .ph{color:var(--accent); font-weight:800}
+  .foot{margin-top:64px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink2)}
+  @media print{ body{background:#fff} .wrap{padding:20px} h2{page-break-after:avoid} .card,.wb,pre,table{page-break-inside:avoid} }
+  @media (max-width:820px){ .wrap{padding:32px 18px 60px} h1{font-size:32px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">minimax-sku-video · 新人交接</div>
+  <h1>环境配置手册<br>从零到能跑，只做这些</h1>
+  <p class="lead">这份手册只负责一件事：把图生视频的运行环境装好，跑到自检全绿。装完就可以交给主管开始接款。
+     接款、生成、质检是另一套流程，不在本手册范围内。</p>
+
+  <div class="callout">
+    <b>每一步都能让 WorkBuddy 代办。</b> 每步都有一个黑色提示词块，<b>整段复制发给 WorkBuddy</b>，它就会代为执行那一步。
+    提示词里 <span class="ph">【方括号】</span> 标的是要你替换成真实信息的地方（路径、密钥、报错原文）。
+    ffmpeg 已经随技能包带来（<code>tools\ffmpeg.exe</code>），不用你找。只有"申请 API Key"这件事它替不了你——其余检查、建文件、跑命令、看结果，都能交给它。
+  </div>
+
+  <div class="callout warn">
+    <b>只做本手册写的事。</b> 环境没装好之前，不要碰生成、提交、质检那些步骤——那些会花钱，
+    而且是装好环境之后才用得上的。有任何一步卡住，停下来问主管，不要自己换版本号或找替代方案硬试。
+  </div>
+
+  <h2><span class="n">0</span>开工前：先备齐 2 样</h2>
+  <table>
+    <thead><tr><th style="width:22%">要备的东西</th><th style="width:26%">具体要求</th><th>怎么确认 / 怎么拿</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Python</b> <span class="tag must">必须</span></td>
+        <td>版本 <b>3.10 – 3.12</b>。不能是 3.13+，也不能低于 3.10（姿态识别库 mediapipe 只支持这个区间）。</td>
+        <td>命令行跑 <code>python --version</code>，看到 <code>Python 3.10.x</code> ~ <code>3.12.x</code> 即可。装 Python 时记得勾选 <b>Add Python to PATH</b>。</td>
+      </tr>
+      <tr>
+        <td><b>ffmpeg.exe</b> <span class="tag opt">包内已带</span></td>
+        <td>视频裁切、时长探测、音轨处理都靠它。<b>技能包里已附带，不用你准备。</b></td>
+        <td>就在技能目录的 <code>tools\ffmpeg.exe</code>。第 3 步命令会用它，照抄即可，不用自己下载或编译。</td>
+      </tr>
+      <tr>
+        <td><b>AIMAXHUG API Key</b> <span class="tag must">必须</span></td>
+        <td>一串调用视频生成接口的密钥。等同账号钥匙，不要发给别人、不要贴进群。</td>
+        <td>向主管申请。拿到后按第 2 步写进项目里。<b>新人不用自己注册账号或充值。</b></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="wb">
+    <div class="wb-h"><span class="sq"></span>对 WorkBuddy 说这句 · 环境体检</div>
+<pre>帮我体检这台电脑跑图生视频的环境，只检查、别改东西，逐项报告"就绪"还是"缺"：
+1. Python 版本是否在 3.10–3.12（用 python --version 查）；
+2. 有没有可用的 ffmpeg（命令行 ffmpeg -version 或常见路径都查一下）；
+3. AIMAXHUG API Key 是否已在环境变量或已有配置文件里配好。
+缺的告诉我具体怎么补。查 Key 时只说"已配置/未配置"，不要打印完整密钥。</pre>
+  </div>
+
+  <h2><span class="n">1</span>装好技能脚本</h2>
+  <div class="card">
+    <p>整套脚本随 <code>minimax-sku-video</code> 技能一起交付，装在 WorkBuddy 的用户技能目录里：</p>
+    <pre><code>%USERPROFILE%\.workbuddy\skills\minimax-sku-video\</code></pre>
+    <p>确认里面有 <code>scripts\init_project.py</code> 这个文件。<b>后面所有命令都要在这个技能目录下执行</b>——
+       先打开命令行，切到这个目录：</p>
+    <pre><code>cd /d "%USERPROFILE%\.workbuddy\skills\minimax-sku-video"</code></pre>
+    <p class="stepnote">如果技能目录不在这台机器上，先让主管把技能包装上，再继续。不要从网上随便找脚本替代。</p>
+  </div>
+  <div class="wb">
+    <div class="wb-h"><span class="sq"></span>对 WorkBuddy 说这句 · 确认技能装好</div>
+<pre>帮我确认 minimax-sku-video 技能装好没有：找到它的 scripts/init_project.py 文件，
+把技能的绝对路径告诉我。找不到就直说"未安装"，别猜路径、也别去网上找替代品。</pre>
+  </div>
+
+  <h2><span class="n">2</span>把 API Key 放进项目</h2>
+  <div class="card">
+    <p>先想好项目要建在哪个目录，例如 <code>D:/视频项目</code>（<b>一个空目录即可，不用自己建子目录</b>，脚本会自动建）。
+       把主管给的 Key 写进这个目录的 <code>.env</code> 文件：</p>
+    <pre><code>AIMAXHUG_API_KEY=把你拿到的密钥粘贴在这里</code></pre>
+    <p class="stepnote">文件名就是 <code>.env</code>（前面有个点），放在项目根目录，和脚本目录不是一回事。
+       等号后面不要加引号、不要留空格。装环境时脚本会自动读这个文件。</p>
+    <div class="callout warn">
+      <b>常见坑：</b>把 Key 写进了技能目录的 <code>.env.example</code> 模板——那是示例文件，不生效。
+      要写的是<b>你自己项目根目录</b>下新建的 <code>.env</code>。
+    </div>
+  </div>
+  <div class="wb">
+    <div class="wb-h"><span class="sq"></span>对 WorkBuddy 说这句 · 写入 API Key</div>
+<pre>我要在【项目目录，例如 D:/视频项目】建项目。帮我在此目录新建 .env 文件（已有就追加），写入一行：
+AIMAXHUG_API_KEY=【把主管给的密钥粘贴到这里，等号后不加引号、不留空格】
+
+写完读回文件确认格式正确，回复里只显示密钥前 6 位和后 4 位，不要显示完整密钥。
+如果这台机器已装 aimaxhug-generation 且配过同款 Key，也可以直接帮你复用——先检查再告诉我，别重复写入。</pre>
+  </div>
+
+  <h2><span class="n">3</span>一键装环境</h2>
+  <div class="card">
+    <p>在技能目录下，跑这一条命令（只把项目目录换成你自己的，<b>ffmpeg 用包内自带的路径，照抄即可</b>）：</p>
+    <pre><code>python scripts/init_project.py --root "D:/视频项目" --venv --install --ffmpeg "tools/ffmpeg.exe"</code></pre>
+    <table>
+      <thead><tr><th style="width:34%">参数</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td><code>--root "D:/视频项目"</code></td><td>项目建在哪。换成你要放项目的目录。</td></tr>
+        <tr><td><code>--venv --install</code></td><td>建独立虚拟环境并把依赖库全装上。<b>不要省</b>，否则后面脚本跑不起来。</td></tr>
+        <tr><td><code>--ffmpeg "tools/ffmpeg.exe"</code></td><td>指向技能包自带的 ffmpeg（在技能目录下执行，所以路径就是 <code>tools/ffmpeg.exe</code>）。脚本会自动复制进项目并配好。</td></tr>
+      </tbody>
+    </table>
+    <p><b>这条命令会自动做 5 件事，你不用手动干预：</b></p>
+    <ul class="tight">
+      <li>建好全部项目目录（素材库 / 待审核 / 历史版本 / 配置等）</li>
+      <li>把引擎代码装进项目的 <code>src/</code> 和 <code>tools/</code></li>
+      <li>写好依赖清单、项目说明和标记文件</li>
+      <li>把 ffmpeg 复制进项目并配置路径</li>
+      <li>下载姿态识别模型到 <code>models/</code>，并安装全部 Python 依赖</li>
+    </ul>
+    <p class="stepnote">装依赖这一步可能要 1–3 分钟，屏幕不动是正常的，等它跑完。整个过程需要联网。</p>
+  </div>
+  <div class="wb">
+    <div class="wb-h"><span class="sq"></span>对 WorkBuddy 说这句 · 一键装环境</div>
+<pre>先切到技能目录（minimax-sku-video 的 scripts 所在目录），帮我跑这条命令装环境：
+
+python scripts/init_project.py --root "【项目目录】" --venv --install --ffmpeg "tools/ffmpeg.exe"
+
+（ffmpeg 用技能包自带的 tools/ffmpeg.exe，路径照抄，不用替换。）
+把命令的完整输出贴给我，尤其是"=== 自检 ==="那一段。
+如果提示 python 不是内部或外部命令，改用你自带的托管 Python 来跑这个脚本，不要让我再装系统 Python。</pre>
+  </div>
+
+  <h2><span class="n">4</span>看自检结果：5 项全 OK 才算装好</h2>
+  <div class="card">
+    <p>命令跑完会打印一段 <code>=== 自检 ===</code>。逐项对照：</p>
+    <table>
+      <thead><tr><th style="width:18%">检查项</th><th style="width:30%">应该看到</th><th>没过怎么办</th></tr></thead>
+      <tbody>
+        <tr><td><b>目录</b></td><td><span class="ok">齐</span></td><td>缺目录说明项目路径没写对，重跑第 3 步。</td></tr>
+        <tr><td><b>引擎</b></td><td>每个文件后都是 <span class="ok">OK</span></td><td>出现「缺」= 技能包不完整，找主管重装技能。</td></tr>
+        <tr><td><b>ffmpeg</b></td><td><span class="ok">OK</span> 后面跟着路径</td><td>报「找不到」= 第 3 步的 <code>--ffmpeg</code> 路径写错了，核对路径重跑。</td></tr>
+        <tr><td><b>API Key</b></td><td><span class="ok">已配置</span>（只显示前后几位）</td><td>报「未配置」= 第 2 步的 <code>.env</code> 没放对位置或 Key 没写对。</td></tr>
+        <tr><td><b>姿态模型</b></td><td>打印出 <code>models/pose_landmarker_lite.task</code></td><td>显示「下载失败」多半是网络问题：<b>装环境阶段可以先不管</b>，告诉主管，不要自己找模型文件乱放。</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <b>判断标准：</b>前 4 项必须全 OK。只有姿态模型那一项允许暂时失败——它只在后面做骨架分镜时才用到，
+      不影响环境本身装好。前 4 项任何一项不过，环境就算没装好，回头修对应那一步。
+    </div>
+  </div>
+  <div class="wb">
+    <div class="wb-h"><span class="sq"></span>对 WorkBuddy 说这句 · 判读自检</div>
+<pre>读一下刚装环境的自检输出（需要就重跑一次自检），逐项判断：目录、引擎、ffmpeg、API Key、姿态模型，
+用表格告诉我每项 OK 还是没过。规则：前 4 项必须全过，只有姿态模型允许暂时失败。
+哪项没过，指出它对应手册第几步、该回去怎么修。别把"已签到"之类的无关信息混进来。</pre>
+  </div>
+
+  <h2><span class="n">5</span>最后一步：验证虚拟环境可用</h2>
+  <div class="card">
+    <p>依赖都装在项目的 <code>.venv</code> 里。给人看的做法是先激活：</p>
+    <pre><code>cd /d "D:/视频项目"
+.venv\Scripts\activate</code></pre>
+    <p>激活成功后，命令行前面会出现 <code>(.venv)</code>。看到它，就说明环境彻底就绪了。</p>
+    <div class="callout warn">
+      <b>但交给 WorkBuddy 代办时不能用这招。</b> 它每执行一条命令都是<b>独立新进程</b>，
+      <code>activate</code> 的激活状态<b>留不住</b>。所以给 WorkBuddy 的提示词里改用 <code>.venv\Scripts\python.exe</code>
+      全路径调用——每次都点名这个解释器，比激活更稳。
+    </div>
+    <p class="stepnote">这一步只是"开工时切换环境"，不算安装的一部分。今天装完到这里就可以收工，
+       明天正式接款前再验证一次即可。怎么接款、怎么生成视频——见技能的 <code>references/pipeline.md</code>。</p>
+  </div>
+  <div class="wb">
+    <div class="wb-h"><span class="sq"></span>对 WorkBuddy 说这句 · 验证虚拟环境（代理专用写法）</div>
+<pre>帮我验证项目的虚拟环境是否可用：用【项目目录】/.venv/Scripts/python.exe --version 确认能跑通。
+注意别依赖 activate——你每执行一条命令都是独立进程，激活状态留不住。
+以后让我跑这个项目的任何 python 脚本，一律用这个 .venv 的 python.exe 全路径执行。</pre>
+  </div>
+
+  <h2>装环境阶段排错</h2>
+  <table>
+    <thead><tr><th style="width:40%">现象</th><th>怎么处理</th></tr></thead>
+    <tbody>
+      <tr><td><code>python --version</code> 版本不对 / 提示不是内部命令</td><td>重装 Python 3.10–3.12，安装时勾选 <b>Add Python to PATH</b>，装完重开命令行。</td></tr>
+      <tr><td>自检 API Key「未配置」</td><td>确认 <code>.env</code> 在<b>项目根目录</b>、文件名带前面的点、格式是 <code>AIMAXHUG_API_KEY=密钥</code>、等号后无引号空格。</td></tr>
+      <tr><td>自检 ffmpeg「找不到」</td><td>核对第 3 步 <code>--ffmpeg</code> 的路径是否指向真实的 ffmpeg.exe，路径别写错、别漏引号。</td></tr>
+      <tr><td>装依赖很慢或失败</td><td>确认联网。依赖只装一次，失败就重跑第 3 步那条命令；还不行把报错原样发给主管。</td></tr>
+      <tr><td>姿态模型下载失败</td><td>网络问题，装环境阶段可先跳过并告知主管，不要自己乱放文件。</td></tr>
+      <tr><td>其它任何看不懂的报错</td><td>停手，把命令行报错整段截图发给主管。不要改版本号、不要删目录、不要找替代脚本。</td></tr>
+    </tbody>
+  </table>
+  <div class="wb">
+    <div class="wb-h"><span class="sq"></span>对 WorkBuddy 说这句 · 排错</div>
+<pre>我装环境时遇到报错：【把报错原文粘贴在这里】。
+对照环境配置手册的排错表判断原因并告诉我怎么修。
+不要改版本号、不要删目录、不要找替代脚本；判断不了就把报错原样整理好，让我发给主管。</pre>
+  </div>
+
+  <div class="foot">
+    适用范围：<code>minimax-sku-video</code> 技能 · 模型固定 <code>minimax-h3-pro-768p</code>（10 s / 9:16 / 768×1344 / 24 fps）。<br>
+    本手册只覆盖"环境装好到自检通过"。接款十步（第 2 步是强制参考体检）、四道闸门、踩坑速查见技能的 <code>references/pipeline.md</code> / <code>pitfalls.md</code>。
+  </div>
+
+</div>
+</body>
+</html>

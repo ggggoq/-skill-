@@ -1,0 +1,29 @@
+subject_definitions:
+<Subject 1> is the girl in <Picture 1>: {girl}.
+<Subject 2> is her outfit in <Picture 1>: {outfit}. Exactly as in <Picture 1>.
+<Subject 3> is the setting in <Picture 1>: {setting}.
+<Subject 4> is the action in <Video 1>: the standing, the turns and the small hand gestures only, as filmed.
+<Picture 2>: the same garment seen from behind on another wearer - the garment only, no scene information.
+<Picture 3>: the outfit laid flat - not worn.
+<Picture 4>: eight grey stills of this same girl showing her standing pose and silhouette only - background removed, garment colour removed, pose and body line only. A pose library, not a timeline.
+<Audio 1> is the sound of <Video 1>, used only to read its timing.
+
+summary:
+[reference generation] One ten-second vertical shot copying <Video 1> from its first frame through 00:04.9, then carrying on with the motions written below, with her whole body kept in frame head to shoes throughout. Hands, arms, head direction and gaze are specified beat by beat and outrank any looser reading of the reference.
+
+retention_analysis:
+<Subject 1>, <Subject 2>, <Subject 3>: fully_preserved.
+<Subject 4>: fully_preserved - the standing, the turns and the small hand gestures reused with their timing; its identity, outfit, setting and framing dropped.
+<Picture 4>: pose only - colour removed, so no garment colour is taken from it. <Audio 1>: timing only; its music and ambience are not reused.
+
+detailed_description:
+Handheld phone footage, available light. [Shot 1] Full-body vertical, head to shoes, front to the lens. Filmed by a passer-by standing three steps back, the phone held up one-handed at chest height, that hand never at rest: the picture carries the live unsteadiness of a phone held in the air and never sits rock-steady. The person filming keeps both feet planted and does not walk, follow, step back or travel with her: she moves inside the frame, the frame never chases her. No push-in, no pull-back, no zoom, no re-framing, no cut. The phone and the hand holding it stay out of frame; only she is visible in every frame. The framing holds her whole body, head to the soles of her shoes, from the first frame to the last: she never grows in the frame and her shoes never drop below the bottom edge. Do not copy the camera path of <Video 1>. The background stays flat and still and the light does not change.
+Same tempo as <Video 1>, no slow motion, no easing in or out. Each beat starts and ends at the seconds written; do not stretch a beat, do not hold any pose past its stated end.
+{beats}
+Outfit fixed to <Picture 1>-<Picture 3>: {garment_hold} The setting is {setting_short}, and it stays the same for the whole ten seconds: {neg}, no second person anywhere in the frame at any moment; the background never swaps and never slides away. She stays within one step of where she starts. Only she in frame: no passer-by, no second child, no mannequin, no camera in shot.
+
+overall_soundscape:
+{sound}
+
+non_diegetic_music:
+N/A

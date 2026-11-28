@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 430" width="1040" height="430" role="img" aria-label="四阶段十步流程图">
+      <rect x="0" y="0" width="1040" height="430" fill="#FFFFFF"/>
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#111"/>
+        </marker>
+      </defs>
+
+      <!-- 阶段 1：接款 + 体检 -->
+      <g>
+        <rect x="4" y="8" width="238" height="304" rx="6" fill="#FFFFFF" stroke="#111" stroke-width="1.4"/>
+        <rect x="4" y="8" width="238" height="34" rx="6" fill="#111"/>
+        <text x="20" y="30" fill="#F7F7F3" font-size="13" font-weight="700" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">阶段 1 · 接款 + 体检</text>
+
+        <rect x="20" y="52" width="206" height="50" rx="4" fill="#F7F7F3" stroke="#D8D8CF"/>
+        <text x="32" y="73" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">① new_sku</text>
+        <text x="32" y="91" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">拷素材 · 探时长 · 建目录</text>
+
+        <rect x="20" y="112" width="206" height="62" rx="4" fill="#B7DF32" stroke="#111"/>
+        <text x="32" y="133" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">② ref_audit　闸门 0</text>
+        <text x="32" y="151" font-size="11.5" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">参考是否重复 · 动作够不够</text>
+        <text x="32" y="167" font-size="11" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">BLOCK → 不许提交（代码硬拦）</text>
+
+        <rect x="20" y="184" width="206" height="50" rx="4" fill="#F7F7F3" stroke="#D8D8CF"/>
+        <text x="32" y="205" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">③ 填配置</text>
+        <text x="32" y="223" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">人物 · 服装 · 场景 · 节拍</text>
+
+        <text x="20" y="256" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">产物：</text>
+        <text x="20" y="273" font-size="10" fill="#111" font-family="SF Mono, Menlo, Consolas, monospace">_check/&lt;款号&gt;/ref_audit/report.json</text>
+
+        <rect x="20" y="284" width="150" height="20" rx="10" fill="#FFFFFF" stroke="#111"/>
+        <text x="30" y="298" font-size="11" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">款号必须核实</text>
+      </g>
+
+      <!-- 阶段 2：打包与提示词 -->
+      <g>
+        <rect x="272" y="8" width="238" height="304" rx="6" fill="#FFFFFF" stroke="#111" stroke-width="1.4"/>
+        <rect x="272" y="8" width="238" height="34" rx="6" fill="#111"/>
+        <text x="288" y="30" fill="#F7F7F3" font-size="13" font-weight="700" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">阶段 2 · 打包与提示词</text>
+
+        <rect x="288" y="52" width="206" height="48" rx="4" fill="#F7F7F3" stroke="#D8D8CF"/>
+        <text x="300" y="73" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">④ skeleton</text>
+        <text x="300" y="91" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">8 格骨架分镜（人眼过）</text>
+
+        <rect x="288" y="108" width="206" height="48" rx="4" fill="#F7F7F3" stroke="#D8D8CF"/>
+        <text x="300" y="129" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">⑤ build_pack</text>
+        <text x="300" y="147" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">四图 + 4.9 s 切片 + manifest</text>
+
+        <rect x="288" y="164" width="206" height="48" rx="4" fill="#F7F7F3" stroke="#D8D8CF"/>
+        <text x="300" y="185" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">⑥ make_prompts</text>
+        <text x="300" y="203" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">渲染提示词 + 规则检查</text>
+
+        <rect x="288" y="222" width="206" height="30" rx="4" fill="#B7DF32"/>
+        <text x="300" y="242" font-size="11" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">闸门：骨架人眼 · 提示词机器</text>
+
+        <text x="288" y="272" font-size="10.5" fill="#555550" font-family="SF Mono, Menlo, Consolas, monospace">04_历史版本/&lt;款号&gt;/</text>
+        <text x="288" y="288" font-size="10.5" fill="#555550" font-family="SF Mono, Menlo, Consolas, monospace">.minimax_bridge/prompts/</text>
+      </g>
+
+      <!-- 阶段 3：提交 -->
+      <g>
+        <rect x="540" y="8" width="238" height="304" rx="6" fill="#FFFFFF" stroke="#111" stroke-width="1.4"/>
+        <rect x="540" y="8" width="238" height="34" rx="6" fill="#111"/>
+        <text x="556" y="30" fill="#F7F7F3" font-size="13" font-weight="700" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">阶段 3 · 提交</text>
+
+        <rect x="556" y="52" width="206" height="54" rx="4" fill="#F7F7F3" stroke="#D8D8CF"/>
+        <text x="568" y="73" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">⑦ submit --stage a</text>
+        <text x="568" y="91" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">上传 + 冻结，不建单</text>
+
+        <rect x="556" y="116" width="206" height="66" rx="4" fill="#B7DF32" stroke="#111"/>
+        <text x="568" y="137" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">⑧ submit --stage b</text>
+        <text x="568" y="155" font-size="11.5" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">建单，一次 US$0.373，不退</text>
+        <text x="568" y="172" font-size="11" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">先读 ② 的报告，BLOCK 即 exit 3</text>
+
+        <text x="556" y="206" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">产物：</text>
+        <text x="556" y="223" font-size="11" fill="#111" font-family="SF Mono, Menlo, Consolas, monospace">tasks/&lt;款号&gt;/vNNN.json</text>
+
+        <rect x="556" y="240" width="188" height="22" rx="11" fill="#FFFFFF" stroke="#111"/>
+        <text x="566" y="255" font-size="11" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">必须有主管授权标志</text>
+
+        <text x="556" y="284" font-size="10.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">跳过闸门：--ignore-ref-audit</text>
+      </g>
+
+      <!-- 阶段 4：收口 -->
+      <g>
+        <rect x="808" y="8" width="228" height="304" rx="6" fill="#FFFFFF" stroke="#111" stroke-width="1.4"/>
+        <rect x="808" y="8" width="228" height="34" rx="6" fill="#111"/>
+        <text x="824" y="30" fill="#F7F7F3" font-size="13" font-weight="700" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">阶段 4 · 收口</text>
+
+        <rect x="824" y="52" width="196" height="72" rx="4" fill="#F7F7F3" stroke="#D8D8CF"/>
+        <text x="836" y="73" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">⑨ poll + finalize</text>
+        <text x="836" y="91" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">下载原片 · 裁 240 帧</text>
+        <text x="836" y="108" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">· 换同窗口参考原声</text>
+
+        <rect x="824" y="134" width="196" height="54" rx="4" fill="#F7F7F3" stroke="#D8D8CF"/>
+        <text x="836" y="155" font-size="13" font-weight="700" fill="#111" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">⑩ qc</text>
+        <text x="836" y="173" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">三道闸门 + 抽帧证据</text>
+
+        <text x="824" y="208" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">产物：</text>
+        <text x="824" y="225" font-size="11.5" fill="#111" font-family="SF Mono, Menlo, Consolas, monospace">00_直接看成片/vNNN.mp4</text>
+
+        <rect x="824" y="240" width="150" height="22" rx="11" fill="#111"/>
+        <text x="834" y="255" font-size="11" fill="#F7F7F3" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">机器过 + 人眼看</text>
+
+        <text x="824" y="284" font-size="10.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">_记录/ 存证据与版本对照</text>
+      </g>
+
+      <!-- 箭头 -->
+      <line x1="242" y1="160" x2="268" y2="160" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+      <line x1="510" y1="160" x2="536" y2="160" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+      <line x1="778" y1="160" x2="804" y2="160" stroke="#111" stroke-width="1.6" marker-end="url(#ah)"/>
+
+      <!-- 入口 / 出口 -->
+      <rect x="4" y="334" width="1032" height="32" rx="4" fill="#111"/>
+      <text x="20" y="355" font-size="12.5" fill="#F7F7F3" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">入口：素材盘 &lt;款号&gt;/1..4（场景参考 / 反面 / 细节 / 动作参考）　　　　　　　　　出口：02_待审核/MiniMax/&lt;款号&gt;/&lt;日期&gt;/00_直接看成片/</text>
+
+      <text x="4" y="392" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">
+        绿底 = 花钱动作或硬闸门　　　白底粗框 = 有护栏的关键节点　　　任一闸门不过就停，不要往下推
+      </text>
+      <text x="4" y="412" font-size="11.5" fill="#555550" font-family="Inter, PingFang SC, Microsoft YaHei, sans-serif">
+        ② 出 BLOCK 时 submit.py 直接 exit 3，不靠自觉；唯一放行方式是 --ignore-ref-audit 并留下主管原话
+      </text>
+    </svg>

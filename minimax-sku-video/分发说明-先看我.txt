@@ -1,0 +1,44 @@
+========================================
+minimax-sku-video 图生视频技能包 · 新人分发说明
+========================================
+
+【这个包是什么】
+服装「图生视频」批量交付流水线：一个款号 → N 组 10 秒竖屏成片。
+十步流程，其中第 2 步是「参考体检」，出 BLOCK 不许提交——这条已经写进
+submit.py，是代码硬拦，不是提醒。
+
+【怎么装：方法 A（推荐，以后能一键更新）】
+  1. 装 Python 3.10–3.12（安装时勾选 Add Python to PATH）
+  2. 打开 PowerShell（开始菜单搜 PowerShell），粘贴这一行回车：
+
+     powershell -ExecutionPolicy Bypass -Command "iwr https://raw.githubusercontent.com/ggggoq/-skill-/main/install.ps1 -OutFile $env:TEMP\i.ps1; & $env:TEMP\i.ps1 -Skill minimax-sku-video"
+
+  3. 用浏览器打开：
+     %USERPROFILE%\.workbuddy\skills\minimax-sku-video\assets\manual\环境配置手册.html
+     从第 0 步开始，每步把黑框里的提示词整段复制发给 WorkBuddy
+
+【怎么装：方法 B（手动）】
+  下载 https://github.com/ggggoq/-skill-/archive/refs/heads/main.zip
+  解压后把里面的 minimax-sku-video 整个目录放到：
+  C:\Users\<你的用户名>\.workbuddy\skills\minimax-sku-video
+
+【以后怎么更新】
+  重跑方法 A 那一行命令。脚本会把旧目录备份成 minimax-sku-video.bak-<时间>，
+  并且只覆盖不删除——你自己的 tools\ffmpeg.exe 和项目数据不会丢。
+
+【包里绝对没有】
+  - 任何 API Key / 密钥 / 令牌（Key 是账号钥匙，找主管申请，不要贴群里）
+  - 任何人的素材、成片、项目数据
+
+【新人三步】
+  1. 装 Python，管理员给你 AIMAXHUG API Key
+  2. 按方法 A 装技能
+  3. 打开环境配置手册，把第 1–5 步的提示词发给 WorkBuddy，直到自检全绿
+
+【红线】
+  - 装环境阶段不碰生成 / 提交 / 质检（那些会花钱）
+  - 任何一步卡住就停下来问主管，不要改版本号、不要找替代脚本硬试
+  - 参考体检出 BLOCK 时不要绕过；确有主管书面裁决才用 --ignore-ref-audit 并留原话
+
+版本：minimax-sku-video · 模型 minimax-h3-pro-768p · 10s / 9:16 / 768x1344 / 24fps
+仓库：https://github.com/ggggoq/-skill-
