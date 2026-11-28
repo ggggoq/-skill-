@@ -1,4 +1,4 @@
-# 一键安装 / 更新 -skill- 仓库里的技能
+﻿# 一键安装 / 更新 -skill- 仓库里的技能
 #
 #   powershell -ExecutionPolicy Bypass -Command "iwr https://raw.githubusercontent.com/ggggoq/-skill-/main/install.ps1 -OutFile $env:TEMP\i.ps1; & $env:TEMP\i.ps1"
 #   ... -OutFile $env:TEMP\i.ps1; & $env:TEMP\i.ps1 -Skill minimax-sku-video
