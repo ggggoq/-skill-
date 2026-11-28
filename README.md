@@ -29,6 +29,8 @@ powershell -ExecutionPolicy Bypass -Command "iwr https://raw.githubusercontent.c
 
 **手动**：下载本仓库 ZIP，把对应子目录整个拷到 `~/.workbuddy/skills/<技能名>/`，或 `git clone` 后按需拷贝。
 
+> 若第一条命令报 `赋值表达式无效` 之类的语法错误（个别机器上 `raw.` 返回的是缓存副本），改用 ZIP：下载 `main.zip` → 解压 → 进目录运行 `powershell -ExecutionPolicy Bypass -File .\install.ps1 -Skill minimax-sku-video`。ZIP 里的 `install.ps1` 永远是最新版。
+
 ## 说明
 
 - 仓库里**不含任何 API Key、密钥、令牌**。需要 Key 的技能（如 minimax-sku-video）在安装后由主管单独发放。
