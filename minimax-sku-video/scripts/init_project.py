@@ -195,7 +195,16 @@ def main() -> int:
     except SystemExit as exc:
         print(f"API Key   : 未配置 —— {exc}")
         ok = False
-    print(f"姿态模型  : {model}")
+    py = root / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+    if py.is_file():
+        r = run([str(py), "-c", "import mediapipe, numpy"])
+        if r.returncode == 0:
+            print("姿态环境  : OK  mediapipe 可用")
+        else:
+            print("姿态环境  : 缺 mediapipe —— pip install mediapipe（参考体检的动作画像要用）")
+    else:
+        print("姿态环境  : 无 .venv —— 加 --venv --install 重建")
+    print(f"姿态模型  : {model}" + ("" if model.exists() else "（缺：参考体检/骨架只能降级）"))
 
     print("\n下一步：")
     print("  1) 读 references/pipeline.md 了解闸门口径")

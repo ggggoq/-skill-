@@ -62,7 +62,7 @@ python scripts/init_project.py --root "<项目目录>" --venv --install
 | 步 | 命令 | 产出 / 闸门 |
 |---|---|---|
 | 1 | `new_sku.py --sku <款号>` | 拷素材、探真实时长、扫活动度、建交付目录、生成 `_check/<款号>/sku.config.json` |
-| 2 | **`ref_audit.py --sku <款号> --pose-python <姿态python>`** | **闸门 0（强制，0 元）**：参考是否重复、动作类型够不够、反面图有没有复制、有没有跨款共用。落 `_check/<款号>/ref_audit/report.json`；**出 BLOCK 不许进第 3 步** |
+| 2 | **`ref_audit.py --sku <款号>`** | **闸门 0（强制，0 元）**：参考是否重复、动作类型够不够、反面图有没有复制、有没有跨款共用。落 `_check/<款号>/ref_audit/report.json`；**出 BLOCK 不许进第 3 步**。姿态环境自动探测项目 `.venv`，不传 `--pose-python` 也行 |
 | 3 | 填配置 | `girl / outfit / setting / setting_short / neg / sound / beats / back_crop` |
 | 4 | `skeleton.py --sku <款号>` | 8 格骨架；畸形就 `--probe` 找干净帧 + `--fixed 组:秒` |
 | 5 | `build_pack.py --sku <款号>` | 四图 + 4.9 s 参考切片 + manifest |
