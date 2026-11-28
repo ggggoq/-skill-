@@ -1,14 +1,19 @@
-﻿# 一键安装 / 更新 -skill- 仓库里的技能
+# Install / update skills from the -skill- repo.
 #
 #   powershell -ExecutionPolicy Bypass -Command "iwr https://raw.githubusercontent.com/ggggoq/-skill-/main/install.ps1 -OutFile $env:TEMP\i.ps1; & $env:TEMP\i.ps1"
 #   ... -OutFile $env:TEMP\i.ps1; & $env:TEMP\i.ps1 -Skill minimax-sku-video
 #
-# 做三件事：下载仓库 ZIP → 解到临时目录 → 复制到 ~/.workbuddy/skills/
-# 更新时先备份旧目录，且只覆盖不删除（保留你自己的 tools\ffmpeg.exe 等）。
+# What it does: download repo ZIP -> extract to temp -> copy into ~/.workbuddy/skills/
+# Update mode: back up the old folder first, then copy over. Nothing is deleted,
+# so your local tools\ffmpeg.exe and project data survive.
+#
+# NOTE: this file is intentionally ASCII-only. PowerShell 5.1 reads BOM-less UTF-8
+# as ANSI and garbles non-ASCII text (which can break parsing), and raw.githubusercontent
+# may serve a cached copy. ASCII keeps it runnable everywhere.
 param(
     [string]$Repo = "ggggoq/-skill-",
     [string]$Branch = "main",
-    [string]$Skill = ""          # 只装某一个技能；留空=全部
+    [string]$Skill = ""          # install one skill only; empty = all skills in repo
 )
 $ErrorActionPreference = "Stop"
 
@@ -19,17 +24,18 @@ $tmp = Join-Path $env:TEMP ("skillpull-" + $stamp)
 $zip = "$tmp.zip"
 $dstRoot = Join-Path $env:USERPROFILE ".workbuddy\skills"
 
-Write-Host "== 下载 $url" -ForegroundColor Cyan
+Write-Host "[1/4] download $url" -ForegroundColor Cyan
 Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing
+Write-Host ("      {0:N0} bytes" -f (Get-Item $zip).Length)
 
-Write-Host "== 解压到 $tmp"
+Write-Host "[2/4] extract to $tmp"
 New-Item -ItemType Directory -Path $tmp -Force | Out-Null
 try {
-    # 指定 UTF8：PS 5.1 自带的 Expand-Archive 会把中文文件名解成乱码
+    # Force UTF8: PS 5.1 Expand-Archive mangles non-ASCII file names.
     Add-Type -AssemblyName System.IO.Compression.FileSystem -ErrorAction Stop
     [System.IO.Compression.ZipFile]::ExtractToDirectory($zip, $tmp, [System.Text.Encoding]::UTF8)
 } catch {
-    Write-Host "   回退到 Expand-Archive（中文文件名可能异常）" -ForegroundColor Yellow
+    Write-Host "      fallback to Expand-Archive (non-ASCII names may break)" -ForegroundColor Yellow
     Expand-Archive -Path $zip -DestinationPath $tmp -Force
 }
 
@@ -43,27 +49,29 @@ $names = if ($Skill) { @($Skill) } else {
         Where-Object { Test-Path (Join-Path $_.FullName "SKILL.md") } |
         ForEach-Object { $_.Name }
 }
-if (-not $names) { throw "在 $src 里没找到任何含 SKILL.md 的技能目录" }
+if (-not $names) { throw "no skill folder (with SKILL.md) found in $src" }
 
+Write-Host "[3/4] install to $dstRoot"
 New-Item -ItemType Directory -Path $dstRoot -Force | Out-Null
 foreach ($n in $names) {
     $from = Join-Path $src $n
-    if (-not (Test-Path $from)) { Write-Host "== 跳过 $n（仓库里没有）" -ForegroundColor Yellow; continue }
+    if (-not (Test-Path $from)) { Write-Host "      skip $n (not in repo)" -ForegroundColor Yellow; continue }
     $to = Join-Path $dstRoot $n
     if (Test-Path $to) {
         $bak = "$to.bak-$stamp"
         Copy-Item $to $bak -Recurse -Force
-        Write-Host "== $n：旧版已备份到 $bak" -ForegroundColor DarkGray
+        Write-Host "      $n : old version backed up to $bak" -ForegroundColor DarkGray
     }
     New-Item -ItemType Directory -Path $to -Force | Out-Null
     Copy-Item (Join-Path $from "*") $to -Recurse -Force
     $cnt = (Get-ChildItem $to -Recurse -File).Count
-    Write-Host "== $n：已更新（$cnt 个文件）" -ForegroundColor Green
+    Write-Host "      $n : updated ($cnt files)" -ForegroundColor Green
 }
 
+Write-Host "[4/4] cleanup"
 Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item $zip -Force -ErrorAction SilentlyContinue
 
 Write-Host ""
-Write-Host "完成。技能目录：$dstRoot" -ForegroundColor Green
-Write-Host "下一步：打开对应技能的 SKILL.md 或 assets/manual/环境配置手册.html"
+Write-Host "DONE. Skills dir: $dstRoot" -ForegroundColor Green
+Write-Host "Next: open SKILL.md, or minimax-sku-video\assets\manual\ for the setup manual."
